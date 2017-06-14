@@ -1,0 +1,618 @@
+<?php
+error_reporting(E_ALL);
+
+/** Pre-study tax rate**/
+
+function pre($var) {
+   $print = print_r($var,true);
+   return "<pre>$print</pre>";
+}
+
+function jdbursary_permission() {
+    return array(
+        'config busary calculator' => array(
+            'title' => t('Config JD Bursary Calculator'),
+            'description' => t('Config JD Bursary Calculator (specify webform id, etc.'),
+            'restrict access' => TRUE,
+        ),
+    );
+}
+
+function jdbursary_menu() {
+    $items['admin/config/content/jdbursary'] = array(
+        'title' => 'Config JD Bursary Calculator',
+        'description' => 'Manage JD Bursary Calculator',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('jdbursary_form'),
+        'access arguments' => array('config busary calculator'),
+        'type' => MENU_NORMAL_ITEM,
+    );
+    return $items;
+}
+
+function jdbursary_form($form, $form_state) {
+
+    $form = array();
+
+    $form['bursary_webform_id'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Webform ID'),
+        '#size' => 23,
+        '#maxlength' => 23,
+        '#default_value' => variable_get('bursary_webform_id', t('webform_client_form_1')),
+        '#description' => t('ID of the webform, eg: webform_client_form_171'),
+    );
+
+    $form['bursary_msc_pre'] = array(
+        '#type' => 'textfield',
+        '#title' => t('MSC - Pre-study'),
+        '#size' => 3,
+        '#maxlength' => 4,
+        '#default_value' => variable_get('bursary_msc_pre', 0),
+        '#element_validate' => array('element_validate_number','element_validate_integer_positive'),
+        '#description' => t('SINGLE STUDENT LIVING AT HOME (DEPENDENT & INDEPENDENT)'),
+    );
+
+    $form['bursary_msc_study'] = array(
+        '#type' => 'textfield',
+        '#title' => t('MSC - Study period'),
+        '#size' => 3,
+        '#maxlength' => 4,
+        '#default_value' => variable_get('bursary_msc_study', 0),
+        '#element_validate' => array('element_validate_number','element_validate_integer_positive'),
+        '#description' => t('SPOUSE OF MARRIED STUDENT (NOT APPLYING FOR CSL)'),
+    );
+
+    $form['bursary_msol_singleaway'] = array(
+        '#type' => 'textfield',
+        '#title' => t('MSOL - Single Living Away From Home'),
+        '#size' => 3,
+        '#maxlength' => 4,
+        '#default_value' => variable_get('bursary_msc_study', 0),
+        '#element_validate' => array('element_validate_number','element_validate_integer_positive'),
+    );
+
+    $form['bursary_msol_singleaway'] = array(
+        '#type' => 'textfield',
+        '#title' => t('MSOL - Single Living Away From Home'),
+        '#size' => 3,
+        '#maxlength' => 4,
+        '#default_value' => variable_get('bursary_msol_singleaway', 0),
+        '#element_validate' => array('element_validate_number','element_validate_integer_positive'),
+    );
+
+    $form['bursary_msol_singlehome'] = array(
+        '#type' => 'textfield',
+        '#title' => t('MSOL - Single Living Away From Home'),
+        '#size' => 3,
+        '#maxlength' => 4,
+        '#default_value' => variable_get('bursary_msol_singlehome', 0),
+        '#element_validate' => array('element_validate_number','element_validate_integer_positive'),
+    );
+
+    $form['bursary_msol_married'] = array(
+        '#type' => 'textfield',
+        '#title' => t('MSOL - Single Living At Home'),
+        '#size' => 3,
+        '#maxlength' => 4,
+        '#default_value' => variable_get('bursary_msol_married', 0),
+        '#element_validate' => array('element_validate_number','element_validate_integer_positive'),
+    );
+
+    $form['bursary_msol_singleparent'] = array(
+        '#type' => 'textfield',
+        '#title' => t('MSOL - Married or Common Law'),
+        '#size' => 3,
+        '#maxlength' => 4,
+        '#default_value' => variable_get('bursary_msol_singleparent', 0),
+        '#element_validate' => array('element_validate_number','element_validate_integer_positive'),
+    );
+
+    $form['bursary_msol_dependant'] = array(
+        '#type' => 'textfield',
+        '#title' => t('MSOL - Dependant'),
+        '#size' => 3,
+        '#maxlength' => 4,
+        '#default_value' => variable_get('bursary_msol_dependant', 0),
+        '#element_validate' => array('element_validate_number','element_validate_integer_positive'),
+    );
+
+    $form['bursary_income_pre'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Pre-study Tax Rate'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+    );
+
+    $form['bursary_income_pre']['bursary_income_pre_tier1'] = array(
+        '#type' => 'textfield',
+        '#title' => t('$0.00'),
+        '#default_value' => variable_get('bursary_income_pre_tier1'),
+        '#description' => t('Use decimal. Do not use percentage.)'),
+        '#element_validate' => array('element_validate_number'),
+    );
+    $form['bursary_income_pre']['bursary_income_pre_tier2'] = array(
+        '#type' => 'textfield',
+        '#title' => t('$1,500.00'),
+        '#default_value' => variable_get('bursary_income_pre_tier2'),
+        '#description' => t('Use decimal. Do not use percentage.)'),
+        '#element_validate' => array('element_validate_number'),
+    );
+    $form['bursary_income_pre']['bursary_income_pre_tier3'] = array(
+        '#type' => 'textfield',
+        '#title' => t('$3000'),
+        '#default_value' => variable_get('bursary_income_pre_tier3'),
+        '#description' => t('Use decimal. Do not use percentage.)'),
+        '#element_validate' => array('element_validate_number'),
+    );
+    $form['bursary_income_pre']['bursary_income_pre_tier4'] = array(
+        '#type' => 'textfield',
+        '#title' => t('$4,500'),
+        '#default_value' => variable_get('bursary_income_pre_tier4'),
+        '#description' => t('Use decimal. Do not use percentage.)'),
+        '#element_validate' => array('element_validate_number'),
+    );
+    $form['bursary_income_pre']['bursary_income_pre_tier5'] = array(
+        '#type' => 'textfield',
+        '#title' => t('$6000'),
+        '#default_value' => variable_get('bursary_income_pre_tier5'),
+        '#description' => t('Use decimal. Do not use percentage.)'),
+        '#element_validate' => array('element_validate_number'),
+    );
+    $form['bursary_income_study'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Study Period Tax Rate'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+    );
+
+    $form['bursary_income_study']['bursary_income_study_tier1'] = array(
+        '#type' => 'textfield',
+        '#title' => t('$0.00'),
+        '#default_value' => variable_get('bursary_income_study_tier1'),
+        '#description' => t('Use decimal. Do not use percentage.)'),
+        '#element_validate' => array('element_validate_number'),
+    );
+    $form['bursary_income_study']['bursary_income_study_tier2'] = array(
+        '#type' => 'textfield',
+        '#title' => t('$1,500.00'),
+        '#default_value' => variable_get('bursary_income_study_tier2'),
+        '#description' => t('Use decimal. Do not use percentage.)'),
+        '#element_validate' => array('element_validate_number'),
+    );
+    $form['bursary_income_study']['bursary_income_study_tier3'] = array(
+        '#type' => 'textfield',
+        '#title' => t('$3000'),
+        '#default_value' => variable_get('bursary_income_study_tier3'),
+        '#description' => t('Use decimal. Do not use percentage.)'),
+        '#element_validate' => array('element_validate_number'),
+    );
+    $form['bursary_income_study']['bursary_income_study_tier4'] = array(
+        '#type' => 'textfield',
+        '#title' => t('$4,500'),
+        '#default_value' => variable_get('bursary_income_study_tier4'),
+        '#description' => t('Use decimal. Do not use percentage.)'),
+        '#element_validate' => array('element_validate_number'),
+    );
+    $form['bursary_income_study']['bursary_income_study_tier5'] = array(
+        '#type' => 'textfield',
+        '#title' => t('$6000'),
+        '#default_value' => variable_get('bursary_income_study_tier5'),
+        '#description' => t('Use decimal. Do not use percentage.)'),
+        '#element_validate' => array('element_validate_number'),
+    );
+
+    $form['bursary_income_spouse'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Spouse Tax Rate'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+    );
+    return system_settings_form($form);
+}
+
+    function jdbursary_form_webform_client_form_171_alter(&$form, &$form_state, $form_id)
+    //function func(&$form, &$form_state, $form_id)
+   {
+  /* $webforms = array(
+      "webform_client_form_1"
+      );
+   if (in_array($form_id, $webforms))
+      {*/
+         //pre($form_state);
+       //$function = 'jdbursary_form_'.variable_get('bursary_webform_id').'_alter';
+       //print $function;
+        $form['#validate'][] = 'jdbursary_custom_submission';
+        //$form['#submit'][] = 'jdbursary_submission_rewrite';
+        $form['actions']['submit']['#value'] = t('Estimate bursary');
+       //}
+   }
+
+    //$func = 'jdbursary_form_'.variable_get('bursary_webform_id').'_alter';
+    //$func($form,$form_state,$form_id);
+
+function getAmount($year, $item, $cost) {
+   return (int)$cost[$year]["$item"];
+}
+
+function getAssociateArray($fileName) {
+   $path = drupal_get_path('module', 'jdbursary');
+   $rows   = array_map('str_getcsv', file($path.'/'.$fileName));
+   $associateArray = array();
+   $header = array_shift($rows);
+   $csv    = array();
+   foreach($rows as $row) {
+      $csv[] = array_combine($header, $row);
+   }
+   foreach($csv as $row) {
+      $key_parent = array_shift($row);
+      $associateArray [$key_parent]=$row;
+   }
+   return $associateArray;
+}
+
+/** Find the tax rate of a giving income **/
+
+function getTaxRate($var, $input) {
+   $keys = array_keys($input);
+   $values = array_values($input);
+   array_push($keys,$var);
+   sort($keys);
+   $index = array_search($var,$keys);
+   if ($index > 0)
+      return $values[$index-1];
+   elseif ($index ==0)
+      return $values[0];
+   return true;
+}
+
+function jdbursary_custom_submission ($form, &$form_state)
+   {
+      $msol_array = array(
+         2 => 327, //Single Living Away From Home 2
+         3 => 121, //Single Living At Home 3
+         4 => 668, //Married or Common Law 4
+         5 => 437, //Single Parent 5
+         7 => 155 //depedent 7
+      );
+
+      $preStudyTax = array(
+         0 => 0.0683,
+         1500 => 0.0706,
+         3000 => 0.0788,
+         4500 => 0.0999,
+         6000 => 0.1282
+      );
+
+      /** Study period tax rate**/
+
+      $studyPeriodTax = array(
+         0 => 0.0683,
+         750 => 0.0706,
+         1500 => 0.0788,
+         2250 => 0.0999,
+         3000 => 0.1282,
+         3750 => 0.1617
+      );
+
+      /** Spouse tax rate**/
+
+      $spouseTax = array(
+         0 => 0.0683,
+         500 => 0.0708,
+         1000 => 0.0783,
+         1500 => 0.0959,
+         2000 => 0.1224,
+         2500 => 0.1579,
+         4000 => 0.2473
+      );
+
+      //Cost
+      $cost = array(
+         1 => array(
+            'sabcwk'   => 34,
+            'osapwk'   =>32,
+            'sabcmon'  =>8,
+            'tuition'  =>12710.87,
+            'book' =>1810),
+         2 => array(
+            'sabcwk'   => 34,
+            'osapwk'   => 32,
+            'sabcmon'  => 8,
+            'tuition'  => 11966.45,
+            'book'=>   1688),
+         3 => array(
+            'sabcwk'   => 34,
+            'osapwk'   => 32,
+            'sabcmon'  => 8,
+            'tuition'  => 11973.45,
+            'book' => 1688)
+      );
+
+      $raw_yearLevel           = (int)$form_state['values']['submitted']['year']; //Q2
+      $raw_province        = $form_state['values']['submitted']['province']; //Q3
+      $raw_status          = $form_state['values']['submitted']['status']; //Q6
+      $raw_spouseStatus        = $form_state['values']['submitted']['spousal_status']; //Q6.1
+      $raw_grossIncomePre       = (int)$form_state['values']['submitted']['gross_income_1']; //Q7
+      $raw_grossIncomeStudy      = (int)$form_state['values']['submitted']['gross_income_2']; //Q8
+      $raw_scholarship      = (int)$form_state['values']['submitted']['scholarship']; //Q9
+      $raw_familySavings    = (int)$form_state['values']['submitted']['family_savings']; //Q10
+      $raw_line150         = (int)$form_state['values']['submitted']['line150']; //Q11
+      $raw_numberOfDependents = (int)$form_state['values']['submitted']['dependents']; //Q12; //Calculator!$G$35
+      $raw_sponsoredTuition = (int)$form_state['values']['submitted']['tuition_sponsored'];
+
+
+
+      /** Immediate derivative values according to webform submission values **/
+      $SABCWks   = getAmount($raw_yearLevel,'sabcwk',$cost); //Calculator!W4
+      $OSAPWks   = getAmount($raw_yearLevel,'osapwk',$cost); //Calculator!W5
+      $SABCMonths = getAmount($raw_yearLevel,'sabcmon',$cost); //Calculator!W6
+      $cost_tuition   = getAmount($raw_yearLevel,'tuition',$cost);
+      $cost_book     = getAmount($raw_yearLevel,'book',$cost);
+
+      /** Cost Calculation **/
+
+      /**
+       * MSOL = VLOOKUP(J16,MSOL!$A$2:$C$5,3,FALSE)*VLOOKUP(Calculator!$E$8,IA!B:J,5,FALSE)/IF(J18=MSOL!E5,2,1)
+       * Factor 1:switch(Question 6)
+       * Factor 2:$SABCWks
+       * Factor 3: If the student's spouse is a full-time student then 2, else 1
+       **/
+
+      // MSOL Factor 1
+      switch ($raw_status) {
+         case 'singleaway':
+            $msol_f1 = 327;
+            break;
+         case 'singlehome':
+            $msol_f1 = 121;
+            break;
+         case 'marrried':
+            $msol_f1 = 668;
+            break;
+         case 'singleparent':
+            $msol_f1 = 437;
+            break;
+         $msol_f1=0;
+      }
+
+      // MSOL Factor 2 is $sabcwk (SABCWks)
+
+      // MSOL Factor 3
+      ($raw_spouseStatus == 4)? $msol_f3=2: $msol_f3=1;
+
+
+      $cost_msol = $msol_f1*$SABCWks/$msol_f3;
+
+      /** Calculate MSOL Depedent
+       * MSOL Depedent: $G$35*MSOL!$C$7*VLOOKUP(Calculator!$E$8,IA!B:J,5,FALSE)
+       * $G$35 (Q12): How many eligible dependents do you have?
+       * MSOL!$C$7: 155 TO BE DECLARED AS GLOBAL
+       * VLOOKUP(Calculator!$E$8,IA!B:J,5,FALSE): $SABCWks
+       **/
+
+      $default_depAmount = 155; // TO BE DECLARED AS GLOBAL
+
+      ($raw_numberOfDependents > 0) ? $cost_msol_dependant = $raw_numberOfDependents*$default_depAmount*$SABCWks : $cost_msol_dependant = 0;
+
+      $sumCost = $cost_tuition+$cost_book+$cost_msol+$cost_msol_dependant;
+
+      /** End of Cost Calculation **/
+
+
+   /** Resources Calculation **/
+
+   // Step One: Study Period Cont.MAX(W25,W26)
+
+   /**    W25: MSC (Minimum Student Contribution, Student Period)
+    * IF(OR(LEFT(J16,6)="Single",J18=MSOL!E4,J18=MSOL!E5),0,MSC!B5*Calculator!W4)
+    *  If status (Q6) is single (single living away, single living home, single parent) OR spouse status (Q6.1) is full time student/home caring children,W25 =0, otherwise,W25 = SABCWks * 274
+    *  SPOUSE OF MARRIED STUDENT (NOT APPLYING FOR CSL) = 274
+    **/
+
+   $default_spouseContribution = 274;// TO BE DECLARED AS GLOBAL
+   $study_msc = ($raw_status == 'singleaway' OR $raw_status == 'singlehome' OR  $raw_status == 'singleparent' OR $raw_spouseStatus == '3' OR $raw_spouseStatus == '4')? 0:$default_spouseContribution*$SABCWks;
+
+   /** W26: StudyPC (Study Period Contribution)
+    * MAX(0,W21-100*Calculator!W4)+W23*0.7
+    * W21: Net Income,Study period
+    * W23: Spousal Net Income, Study period
+    * Calculator!W4: SABCWks
+    */
+
+   /**W20: Monthly Income, Study period
+    * J27/Calculator!$W$4*4.3
+    * J27: Q8 $grossIncome
+    **/
+
+   $study_mi = $raw_grossIncomeStudy/$SABCWks*4.3; //    J27/Calculator!$W$4*4.3       J27 is Q8
+   $study_mi_taxRate = getTaxRate($study_mi,$studyPeriodTax); //X20
+   $study_ni = $raw_grossIncomeStudy * (1-$study_mi_taxRate);// W21 : J27*(1-X20)
+
+   $study_spouse_mi = (int)$form_state['values']['submitted']['gross_income_spouse_all']/$SABCWks*4.3; //   J22/Calculator!$W$4*4.3; J22 is Q6.3
+   $study_spouse_mi_taxRate = getTaxRate($study_spouse_mi,$spouseTax); //    X22
+   $study_spouse_ni = (int)$form_state['values']['submitted']['gross_income_spouse_all'] * (1-$study_spouse_mi_taxRate);// W23       J22*(1-X22)
+
+   $study_studyPC = max(0,$study_ni-100*$SABCWks) + $study_spouse_ni*0.7;
+
+   $studyPC = max($study_msc,$study_studyPC);
+
+   // Step Two: Pre-Study Period Contribution
+   // MAX(W15,W16,J31)/IF(J18=MSOL!E5,2,1)
+
+   // First,calculate W15, W16
+
+   //W15 IF(M14="Yes",MSC!B2*18,0). M14 is Q5
+   $default_singleContribution = 156; // TO BE DECLARED AS GLOBAL
+   $pre_msc = ($form_state['values']['submitted']['live_with_parents']=='yes')?18*$default_singleContribution:0;
+
+   //W16 MAX(0,W11+W13-W17)*0.8. Need to calculate W11 and W13 first, which require X10 and X12
+
+   $pre_mi = $raw_grossIncomePre/18*4.3; //   J24/18*4.3. J24 is Q7;
+   $pre_mi_taxRate = getTaxRate($pre_mi,$preStudyTax); //X10
+   $pre_ni = $raw_grossIncomePre *(1-$pre_mi_taxRate); // J24*(1-X10) --- this is W11
+
+   $pre_spouse_mi = (int)$form_state['values']['submitted']['gross_income_spouse']/18*4.3; // J20/18*4.3. J20 is Q6.2
+   $pre_spouse_mi_taxRate = getTaxRate($pre_spouse_mi,$preStudyTax);//X12
+   $pre_spouse_ni = (int)$form_state['values']['submitted']['gross_income_spouse']/(1-$pre_spouse_mi_taxRate); // J20*(1-X12) --- this is W13
+
+   //Now , calculate W17: IF(M14="Yes",MSOL!C3,(VLOOKUP(J16,MSOL!$A$2:$C$5,3,FALSE)+MSOL!C7*Calculator!G35))*18
+   // M14 is Q5
+   if ($form_state['values']['submitted']['live_with_parents']=='yes')
+      $pre_msol = $msol_array[3]*18; //W17
+   else{
+      $pre_msol = ($msol_f1 + $msol_array[7]*$raw_numberOfDependents)*18;//VLOOKUP(J16,MSOL!$A$2:$C$5,3,FALSE) is MSOL Factor 1,already calculated above}
+   }
+
+   $pre_preSC = max(0,$pre_ni+$pre_spouse_ni-$pre_msol)*0.8;
+
+   //J31 is Q10, $familySavings
+   //J18 is Q6.1, $spousalStatus
+   $preSC = max($pre_msc,$pre_preSC,$raw_familySavings);
+   $preSC = ($raw_spouseStatus==4)? $preSC/2:$preSC;
+
+   // Step Three: Scholarship: MAX(0,J29-1800)
+   $study_scholarship = max(0,$raw_scholarship-1800);
+
+   $sumResources = $studyPC + $preSC + $study_scholarship + $raw_sponsoredTuition;
+
+   //test('total resources',$sumResources);
+   /** End of Resources Calculation */
+
+   /** Calculate Funding */
+
+   /** Family size: (MIN(G35,5)+IF(J16=MSOL!A4,2,1)) **/
+   $familySize = ($raw_status == 'marrried')? min($raw_numberOfDependents,5)+2:min($raw_numberOfDependents,5)+1;
+   //test('family size',$familySize);
+
+   // Grant IF(J33<W31,X31,IF(J33<W32,X32,0))+X33
+   // J33 is $line150. Will need to calculate W31, W32, X31, X32, X33
+
+   //First, Income table's index
+   $incomeIndex = $raw_province.(string)$familySize; //AB2,BC4, etc.
+
+   //Read two files
+   $incomeTable   = getAssociateArray('income.csv');
+   $fundingTable  = getAssociateArray('funding.csv');
+
+   $funding_li = $incomeTable[$incomeIndex]['LowIncome']; //w31
+   $funding_mi = $incomeTable[$incomeIndex]['MiddleIncome']; //w32
+
+   $default_LiGrant = 375; // TO BE DECLARED AS GLOBAL
+   $default_MiGrant = 150; // TO BE DECLARED AS GLOBAL
+   $default_depGrant = 200; //TO BE DECLARED AS GLOBAL
+
+   $funding_li_grant = $SABCMonths*$default_LiGrant;
+   $funding_mi_grant = $SABCMonths*$default_MiGrant;
+   $funding_dep_grant = ($raw_numberOfDependents>0) ? $default_depGrant*$SABCMonths : 0; //IF(G35>0,Calculator!Z33*Calculator!$W$6,0)
+
+   $funding_grant = ($raw_line150<$funding_li)? $funding_li_grant:($raw_line150<$funding_mi?$funding_mi_grant:0);
+
+   $funding_grant+=$funding_dep_grant;
+
+   // Loan: VLOOKUP(K10,Funding!A:I,9,FALSE)
+
+   // Each province has different funding rules
+
+	switch($raw_province){
+		case 'AB':
+			//AB E2*3+IF(Calculator!J16=MSOL!A5,Funding!F2,0)*2
+			$fundingTable['AB']['Funding']=($raw_status == 'singleparent')? $fundingTable['AB']['AmountC']*3 + $fundingTable['AB']['AmountD']*2:$fundingTable['AB']['AmountC']*3;
+		break;
+		case 'BC':
+			//BC MIN(17340-Calculator!S33,IF(Calculator!G35=0,Funding!C3,Funding!D3+E3*Calculator!$G$35)*Calculator!W4)
+			$temp_var=($raw_numberOfDependents == 0)? $fundingTable['BC']['AmountA']:
+				($fundingTable['BC']['AmountB']+$fundingTable['BC']['AmountC']*$raw_numberOfDependents);
+			$temp_var = $temp_var*$SABCWks;
+			$fundingTable['BC']['Funding'] = min((17340-$funding_grant),$temp_var);
+			unset($temp_var);
+			break;
+		case 'MB':
+			//MB C4*Calculator!W4
+			$fundingTable['MB']['Funding'] = $fundingTable['MB']['AmountA']*$SABCWks;
+			break;
+		case 'NB':
+			//NB C5*Calculator!W4
+			$fundingTable['NB']['Funding'] = $fundingTable['NB']['AmountA']*$SABCWks;;
+			break;
+		case 'NL':
+			//NL C6*Calculator!W4
+			$fundingTable['NL']['Funding'] = $fundingTable['NL']['AmountA']*$SABCWks;
+			break;
+		case 'NS':
+			//NS (C7+E7+IF(Calculator!G35=0,0,Funding!D7))*Calculator!W4
+			$fundingTable['NS']['Funding']=($raw_numberOfDependents==0)? 0: $fundingTable['NS']['AmountB'];
+			$fundingTable['NS']['Funding']= ($fundingTable['NS']['AmountA']+$fundingTable['NS']['AmountC']+$fundingTable['NS']['Funding'])*$SABCWks;
+			break;
+		case 'NT':
+			//NT E8*Calculator!W6
+			$fundingTable['NT']['Funding'] = $fundingTable['NT']['AmountC']*$SABCMonths;
+			break;
+		case 'ON':
+			//ON IF(OR(Calculator!J16=MSOL!A4,Calculator!J16=MSOL!A5),Funding!D9,Funding!C9)*Calculator!W5
+			$fundingTable['ON']['Funding'] = ($raw_status == 'marrried' OR $raw_status =='singleparent')? $fundingTable['ON']['AmountB']*$OSAPWks:$fundingTable['ON']['AmountA']*$OSAPWks;
+			break;
+		case 'PE':
+			//PE C10*Calculator!W4
+			$fundingTable['PE']['Funding'] = $fundingTable['PE']['AmountA']*$SABCWks;
+			break;
+		case 'SK':
+			//SK (IF(Calculator!J33<Calculator!W31,C11,IF(Calculator!J33<Calculator!W32,385,408))+D11*Calculator!G35)*Calculator!W4
+			if ($raw_line150<$funding_li) {
+				$fundingTable['SK']['Funding'] = $fundingTable['SK']['AmountA'];
+			} else {
+				$fundingTable['SK']['Funding']=($raw_line150<$funding_mi)?385:408;
+			}
+			$fundingTable['SK']['Funding'] = ($raw_line150<$funding_li) ?  $fundingTable['SK']['AmountA']:(($raw_line150<$funding_mi)?385:408);
+			$fundingTable['SK']['Funding'] = ($fundingTable['SK']['Funding']+$fundingTable['SK']['AmountB']*$raw_numberOfDependents)*$SABCWks;
+			break;
+		case 'YT':
+			//YT (C12+E12)*Calculator!W4
+			$fundingTable['YT']['Funding'] = ($fundingTable['YT']['AmountA']+$fundingTable['YT']['AmountC'])*$SABCWks;
+			break;
+		case 'NU':
+			//NU C13*Calculator!W4+IF(Calculator!G35=0,Funding!E13,Funding!F13)+MAX(Calculator!G35-1,0)*Funding!D13
+			$fundingTable['NU']['Funding'] = ($raw_numberOfDependents == 0)?$fundingTable['NU']['AmountC']:$fundingTable['NU']['AmountD'] ;
+			$fundingTable['NU']['Funding'] = $fundingTable['NU']['AmountA']*$SABCWks + $fundingTable['NU']['Funding'] + max($raw_numberOfDependents-1,0)*$fundingTable['NU']['AmountB'] ;
+			break;
+		case 'QC':
+			//QC MIN(17340-Calculator!S33,IF(Calculator!G35=0,Funding!C3,Funding!D3+E3*Calculator!$G$35)*Calculator!W4)
+			$temp_var=($raw_numberOfDependents == 0)? $fundingTable['BC']['AmountA']:
+				$fundingTable['BC']['AmountB']+$fundingTable['BC']['AmountC']*$raw_numberOfDependents;//Note: QC uses BC's val 
+			$temp_var *= $SABCWks;
+			$fundingTable['QC']['Funding'] = min(17340-$funding_grant,$temp_var);
+			unset($temp_var);
+			break;
+	}
+
+   $funding_loan = $fundingTable[$raw_province]['Funding'];
+   $sumFunding = $funding_grant + $fundingTable[$raw_province]['Funding'];
+
+   $default_deductible = 780;
+
+   $all_vars = get_defined_vars();
+   ksort($all_vars);
+   foreach ($all_vars as $key=>$value)
+	if (is_array($value)) unset($all_vars[$key]);
+   //pre($all_vars);
+   //exit;
+   
+   //$text = "<h2>The following is for testing purpose only<h2>";
+   //$text .= pre($all_vars);
+   $text = '';
+   
+   //IF(Q38-R38-S38-W36*2<100,"No Bursary Estimated",ROUNDDOWN(Q38-R38-S38-W36*2,-2))
+
+    if ($sumCost-$sumResources-$sumFunding-$default_deductible*2<100)
+        $form_state['values']['submitted']['assessment'] = 'No bursary Estimated'.$text;
+    else
+        $form_state['values']['submitted']['assessment'] = "Estimated Bursary: $". number_format(floor(($sumCost-$sumResources-$sumFunding-$default_deductible*2)/100)*100).$text;
+	//print $form_state['values']['submitted']['assessment'];
+
+	//exit;
+   /** End of Funding Calculation */
+
+   }
+
+
+?>

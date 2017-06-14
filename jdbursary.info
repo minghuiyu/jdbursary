@@ -1,0 +1,5 @@
+name = JD Bursary Calculator
+description = To calculate JD Bursary
+core = 7.x
+package = "UBC ES"
+version = "7.x-1.0"
