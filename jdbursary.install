@@ -1,0 +1,84 @@
+<?php
+error_reporting ( E_ALL );
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Honeypot module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function jdbursary_install() {
+	if (! drupal_is_cli ()) {
+		$t = get_t ();
+		drupal_set_message ( $t ( "JD Bursary Calculator module installed successfully. Please !link to configure.", array (
+				'!link' => l ( $t ( 'configure JD Bursary Calculator' ), 'admin/config/user-interface/jdbursary' ) 
+		) ) );
+	}
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function jdbursary_uninstall() {
+	db_delete ( 'variable' )->condition ( 'name', db_like ( 'jdbursary_' ) . '%', 'LIKE' )->execute ();
+	$cache_tables = array (
+			'variables',
+			'cache_bootstrap' 
+	);
+	foreach ( $cache_tables as $table ) {
+		if (db_table_exists ( $table )) {
+			cache_clear_all ( $table, 'cache' );
+		}
+	}
+	
+	// Delete 'bursary' directory from public file directory.
+	file_unmanaged_delete_recursive ( 'public://jdbursary' );
+}
+
+/**
+ * Implements hook_schema().
+ */
+function jdbursary_schema() {
+	$schema ['jdbursary_var'] = array (
+			'description' => 'Variables for the JD Bursary calculator',
+			'fields' => array (
+					'id' => array (
+							'description' => 'The primary identifier',
+							'type' => 'serial',
+							'unsigned' => TRUE,
+							'not null' => TRUE 
+					),
+					
+					'name' => array (
+							'type' => 'varchar',
+							'length' => 128,
+							'not null' => TRUE,
+							'description' => 'Variable name' 
+					),
+					
+					'value' => array (
+							'description' => '',
+							'type' => 'float',
+							'unsigned' => TRUE,
+							'not null' => TRUE,
+							'description' => 'Variable value' 
+					) 
+			),
+			'indexes' => array (
+					'id' => array (
+							'id' 
+					),
+					'name' => array (
+							'name' 
+					) 
+			), 
+			'primary key' => array('id')
+	
+	);
+	
+	return $schema;
+}
+
+?>
