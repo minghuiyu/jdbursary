@@ -101,35 +101,35 @@ function jdbursary_form($form, $form_state) {
 
     $form['jdbursary_income_pre']['jdbursary_income_pre_tier1'] = array(
         '#type' => 'textfield',
-        '#title' => t('$0.00'),
+        '#title' => t('$0 - $1499'),
         '#default_value' => variable_get('jdbursary_income_pre_tier1'),
         '#description' => t('Use decimal. Do not use percentage.)'),
         '#element_validate' => array('element_validate_number'),
     );
     $form['jdbursary_income_pre']['jdbursary_income_pre_tier2'] = array(
         '#type' => 'textfield',
-        '#title' => t('$1,500.00'),
+        '#title' => t('$1500 - $2999 '),
         '#default_value' => variable_get('jdbursary_income_pre_tier2'),
         '#description' => t('Use decimal. Do not use percentage.)'),
         '#element_validate' => array('element_validate_number'),
     );
     $form['jdbursary_income_pre']['jdbursary_income_pre_tier3'] = array(
         '#type' => 'textfield',
-        '#title' => t('$3000'),
+        '#title' => t('$3000 - $4499'),
         '#default_value' => variable_get('jdbursary_income_pre_tier3'),
         '#description' => t('Use decimal. Do not use percentage.)'),
         '#element_validate' => array('element_validate_number'),
     );
     $form['jdbursary_income_pre']['jdbursary_income_pre_tier4'] = array(
         '#type' => 'textfield',
-        '#title' => t('$4,500'),
+        '#title' => t('$4,500 - $5999'),
         '#default_value' => variable_get('jdbursary_income_pre_tier4'),
         '#description' => t('Use decimal. Do not use percentage.)'),
         '#element_validate' => array('element_validate_number'),
     );
     $form['jdbursary_income_pre']['jdbursary_income_pre_tier5'] = array(
         '#type' => 'textfield',
-        '#title' => t('$6000'),
+        '#title' => t('$6000+'),
         '#default_value' => variable_get('jdbursary_income_pre_tier5'),
         '#description' => t('Use decimal. Do not use percentage.)'),
         '#element_validate' => array('element_validate_number'),
@@ -143,35 +143,35 @@ function jdbursary_form($form, $form_state) {
 
     $form['jdbursary_income_study']['jdbursary_income_study_tier1'] = array(
         '#type' => 'textfield',
-        '#title' => t('$0.00'),
+        '#title' => t('$0 - $1499'),
         '#default_value' => variable_get('jdbursary_income_study_tier1'),
         '#description' => t('Use decimal. Do not use percentage.)'),
         '#element_validate' => array('element_validate_number'),
     );
     $form['jdbursary_income_study']['jdbursary_income_study_tier2'] = array(
         '#type' => 'textfield',
-        '#title' => t('$1,500.00'),
+        '#title' => t('$1500 - $2999'),
         '#default_value' => variable_get('jdbursary_income_study_tier2'),
         '#description' => t('Use decimal. Do not use percentage.)'),
         '#element_validate' => array('element_validate_number'),
     );
     $form['jdbursary_income_study']['jdbursary_income_study_tier3'] = array(
         '#type' => 'textfield',
-        '#title' => t('$3000'),
+        '#title' => t('$3000 - $4499'),
         '#default_value' => variable_get('jdbursary_income_study_tier3'),
         '#description' => t('Use decimal. Do not use percentage.)'),
         '#element_validate' => array('element_validate_number'),
     );
     $form['jdbursary_income_study']['jdbursary_income_study_tier4'] = array(
         '#type' => 'textfield',
-        '#title' => t('$4,500'),
+        '#title' => t('$4500 - $5999'),
         '#default_value' => variable_get('jdbursary_income_study_tier4'),
         '#description' => t('Use decimal. Do not use percentage.)'),
         '#element_validate' => array('element_validate_number'),
     );
     $form['jdbursary_income_study']['jdbursary_income_study_tier5'] = array(
         '#type' => 'textfield',
-        '#title' => t('$6000'),
+        '#title' => t('$6000+'),
         '#default_value' => variable_get('jdbursary_income_study_tier5'),
         '#description' => t('Use decimal. Do not use percentage.)'),
         '#element_validate' => array('element_validate_number'),
@@ -183,6 +183,184 @@ function jdbursary_form($form, $form_state) {
         '#collapsible' => TRUE,
         '#collapsed' => TRUE,
     );
+    
+    $form['jdbursary_income_spouse']['jdbursary_income_spouse_tier1'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('$0 - $1499'),
+    		'#default_value' => variable_get('jdbursary_income_spouse_tier1'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+    $form['jdbursary_income_spouse']['jdbursary_income_spouse_tier2'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('$1500 - $2999'),
+    		'#default_value' => variable_get('jdbursary_income_spouse_tier2'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+    $form['jdbursary_income_spouse']['jdbursary_income_spouse_tier3'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('$3000 - $4499'),
+    		'#default_value' => variable_get('jdbursary_income_spouse_tier3'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+    $form['jdbursary_income_spouse']['jdbursary_income_spouse_tier4'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('$4500 - $5999'),
+    		'#default_value' => variable_get('jdbursary_income_spouse_tier4'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+    $form['jdbursary_income_spouse']['jdbursary_income_spouse_tier5'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('$6000+'),
+    		'#default_value' => variable_get('jdbursary_income_spouse_tier5'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+    
+    $form['jdbursary_sabcwk'] = array(
+    		'#type' => 'fieldset',
+    		'#title' => t('sabcwk'),
+    		'#collapsible' => TRUE,
+    		'#collapsed' => TRUE,
+    );
+    $form['jdbursary_sabcwk']['jdbursary_sabcwk_y1'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('Year 1'),
+    		'#default_value' => variable_get('jdbursary_sabcwk_y1'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+    $form['jdbursary_sabcwk']['jdbursary_sabcwk_y2'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('Year 2'),
+    		'#default_value' => variable_get('jdbursary_sabcwk_y2'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+    $form['jdbursary_sabcwk']['jdbursary_sabcwk_y3'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('Year 3'),
+    		'#default_value' => variable_get('jdbursary_sabcwk_y3'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+
+    $form['jdbursary_osapwk'] = array(
+    		'#type' => 'fieldset',
+    		'#title' => t('osapwk'),
+    		'#collapsible' => TRUE,
+    		'#collapsed' => TRUE,
+    );
+    $form['jdbursary_osapwk']['jdbursary_osapwk_y1'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('Year 1'),
+    		'#default_value' => variable_get('jdbursary_osapwk_y1'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+    $form['jdbursary_osapwk']['jdbursary_osapwk_y2'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('Year 2'),
+    		'#default_value' => variable_get('jdbursary_osapwk_y2'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+    $form['jdbursary_osapwk']['jdbursary_osapwk_y3'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('Year 3'),
+    		'#default_value' => variable_get('jdbursary_osapwk_y3'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+    
+    $form['jdbursary_sabcmon'] = array(
+    		'#type' => 'fieldset',
+    		'#title' => t('SABCMonths'),
+    		'#collapsible' => TRUE,
+    		'#collapsed' => TRUE,
+    );
+    $form['jdbursary_sabcmon']['jdbursary_sabcmon_y1'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('Year 1'),
+    		'#default_value' => variable_get('jdbursary_sabcmon_y1'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+    $form['jdbursary_sabcmon']['jdbursary_sabcmon_y2'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('Year 2'),
+    		'#default_value' => variable_get('jdbursary_sabcmon_y2'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+    $form['jdbursary_sabcmon']['jdbursary_sabcmon_y3'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('Year 3'),
+    		'#default_value' => variable_get('jdbursary_sabcmon_y3'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+    
+    
+    $form['jdbursary_tuition'] = array(
+    		'#type' => 'fieldset',
+    		'#title' => t('DTuitStudFee'),
+    		'#collapsible' => TRUE,
+    		'#collapsed' => TRUE,
+    );
+    $form['jdbursary_tuition']['jdbursary_tuition_y1'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('Year 1'),
+    		'#default_value' => variable_get('jdbursary_tuition_y1'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+    $form['jdbursary_tuition']['jdbursary_tuition_y2'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('Year 2'),
+    		'#default_value' => variable_get('jdbursary_tuition_y2'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+    $form['jdbursary_tuition']['jdbursary_tuition_y3'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('Year 3'),
+    		'#default_value' => variable_get('jdbursary_tuition_y3'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+
+    $form['jdbursary_book'] = array(
+    		'#type' => 'fieldset',
+    		'#title' => t('TotBkEE'),
+    		'#collapsible' => TRUE,
+    		'#collapsed' => TRUE,
+    );
+    $form['jdbursary_book']['jdbursary_book_y1'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('Year 1'),
+    		'#default_value' => variable_get('jdbursary_book_y1'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+    $form['jdbursary_book']['jdbursary_book_y2'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('Year 2'),
+    		'#default_value' => variable_get('jdbursary_book_y2'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+    $form['jdbursary_book']['jdbursary_book_y3'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('Year 3'),
+    		'#default_value' => variable_get('jdbursary_book_y3'),
+    		'#description' => t('Use decimal. Do not use percentage.)'),
+    		'#element_validate' => array('element_validate_number'),
+    );
+    
     return system_settings_form($form);
 }
 

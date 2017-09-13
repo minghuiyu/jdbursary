@@ -3,7 +3,7 @@ error_reporting ( E_ALL );
 
 /**
  * @file
- * Install, update and uninstall functions for the Honeypot module.
+ * Install, update and uninstall functions for the JD Bursary Calculator module.
  */
 
 /**
