@@ -3,6 +3,11 @@ error_reporting(E_ALL);
 
 /** Pre-study tax rate**/
 
+function _getProvinceList() {
+	return array('AB','BC','MB','NB','NL','NS','NT','NU','ON','PE','QC','SK','YT');
+}
+
+
 function pre($var) {
    $print = print_r($var,true);
    return "<pre>$print</pre>";
@@ -30,6 +35,38 @@ function jdbursary_menu() {
 			'file' => 'jdbursary.admin.inc',
 	);
 	return $items;
+}
+
+function submit_income_submit($form, &$form_state) {	
+	if (variable_get('jdbursary_income') == null) {
+		$province = _getProvinceList();
+		$income = array();
+		for ($i=0;$i<count($province);$i++){
+			for ($j=1;$j<=7;$j++){
+				$income[$province[$i]."$j"] = array('Low',"Middle");
+			}
+		}
+		variable_set('jdbursary_income',$income);
+	}
+	drupal_set_message(t('Income file submitted'));
+	drupal_set_message(pre(variable_get('jdbursary_income')));
+}
+
+function submit_funding_submit($form, &$form_state) {
+	
+	if (variable_get('jdbursary_funding') == null) {
+		$province = _getProvinceList();
+		$funding = array();
+		for ($i=0;$i<count($province);$i++){
+			$funding[$province[$i]]=array('A','B','C','D','NoDep','Dep');
+		}
+		$funding['test']=' this is a test';
+		variable_set('jdbursary_funding',$funding);
+	}
+	
+	drupal_set_message(t('Funding file submitted'));
+	
+	drupal_set_message(pre(variable_get('jdbursary_funding')));
 }
 
 function getAmount($year, $item, $cost) {

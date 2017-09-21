@@ -361,6 +361,33 @@ function jdbursary_form($form, $form_state) {
     		'#element_validate' => array('element_validate_number'),
     );
     
+    $form['income_file'] = array(
+    		'#type' => 'file',
+    		'#title' => t('Income file'),
+    		'#description' => t('Allowed extensions: csv'),
+    );
+    
+    $form['submit_income'] = array
+    (
+    		'#type' => 'submit',
+    		'#value' => t('Upload income file'),
+    		'#submit' => array('submit_income_submit'),
+    );
+    
+    $form['funding_file'] = array(
+    		'#type' => 'file',
+    		'#title' => t('Funding file'),
+    		'#description' => t('Allowed extensions: csv'),
+    );
+        
+    
+    $form['submit_funding'] = array
+    (
+    		'#type' => 'submit',
+    		'#value' => t('Upload funding file'),
+    		'#submit' => array('submit_funding_submit'),
+    );
+    
     return system_settings_form($form);
 }
 
