@@ -52,22 +52,33 @@ function jdbursary_menu() {
 }
 function submit_income_submit($form, &$form_state) {
 	$province = _getProvinceList ();
-	$income = array ();
+	$income = array();
+	$array_header = array (
+			'index',
+			'low',
+			'middle'
+	);
+	$file = file_save_upload('income_file', array('file_validate_extensions' => array('csv'),));
+	$fp = fopen($file->uri, 'r');
+	$row = 0;
+	$table = array();
+	$index = array();
 	for($i = 0; $i < count ( $province ); $i ++) {
 		for($j = 1; $j <= 7; $j ++) {
-			$income [$province [$i] . "$j"] = array (
+			$index [$province [$i] . "$j"] = array (
 					'Low',
-					"Middle" 
+					"Middle"
 			);
 		}
 	}
-	$file = file_save_upload('income_file', array(
-			'file_validate_extensions' => array('txt'),
-	));
-	
-	//get the content in the file
-	$content = file_get_contents($file->uri);
-	
+	while (($line = fgetcsv($fp, 1024, ",")) !== FALSE) {
+		$table[] = $line;
+	}
+	reset($table);
+	foreach ($index as $thisIndex) {
+		$income[$thisIndex] = array_combine($array_header,current($table));
+		next($table);
+	}
 	//remove the file in temp and the pointer in the database
 	file_delete($file);
 	variable_set ( 'jdbursary_income', $content );
@@ -77,28 +88,28 @@ function submit_income_submit($form, &$form_state) {
 function submit_funding_submit($form, &$form_state) {
 	$province = _getProvinceList ();
 	$funding = array ();
-	for($i = 0; $i < count ( $province ); $i ++) {
-		$funding [$province [$i]] = array (
-				'A',
-				'B',
-				'C',
-				'D',
-				'NoDep',
-				'Dep' 
-		);
-	}
+	$array_header = array (
+	 				'A',
+	 				'B',
+	 				'C',
+	 				'D',
+	 				'NoDep',
+	 				'Dep'
+	 		);
 
-	$file = file_save_upload('funding_file', array(
-			'file_validate_extensions' => array('txt'),
-	));
+	$file = file_save_upload('funding_file', array('file_validate_extensions' => array('csv'),));
 	$fp = fopen($file->uri, 'r');
 	$row = 0;
-	while (($import_row = fgetcsv($fp, 1024, ",")) !== FALSE) {
-		$num = count($import_row);
-		print $import_row[0] . $import_row[1];
+	$table = array();
+	while (($line = fgetcsv($fp, 1024, ",")) !== FALSE) {
+		$table[] = $line;
 	}
-	
-	
+	reset($table);
+	foreach ($province as $thisProvince) {
+		$funding[$thisProvince] = array_combine($array_header,current($table));
+		next($table);
+	}
+	file_delete($file);
 	variable_set ( 'jdbursary_funding', $funding );
 	drupal_set_message ( t ( 'Funding file submitted' ) );
 	drupal_set_message ( pre ( variable_get ( 'jdbursary_funding' ) ) );
