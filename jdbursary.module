@@ -54,7 +54,6 @@ function submit_income_submit($form, &$form_state) {
 	$province = _getProvinceList ();
 	$income = array();
 	$array_header = array (
-			'index',
 			'low',
 			'middle'
 	);
@@ -62,28 +61,25 @@ function submit_income_submit($form, &$form_state) {
 	$fp = fopen($file->uri, 'r');
 	$row = 0;
 	$table = array();
-	$index = array();
+	$incomeIndex = array();
 	for($i = 0; $i < count ( $province ); $i ++) {
 		for($j = 1; $j <= 7; $j ++) {
-			$index [$province [$i] . "$j"] = array (
-					'Low',
-					"Middle"
-			);
+			$incomeIndex [$province [$i] . "$j"] = array ();
 		}
 	}
 	while (($line = fgetcsv($fp, 1024, ",")) !== FALSE) {
 		$table[] = $line;
 	}
 	reset($table);
-	foreach ($index as $thisIndex) {
-		$income[$thisIndex] = array_combine($array_header,current($table));
+	foreach ($incomeIndex as $key=>$value) {
+		$income[$key] = array_combine($array_header,current($table));
 		next($table);
 	}
 	//remove the file in temp and the pointer in the database
-	file_delete($file);
-	variable_set ( 'jdbursary_income', $content );
+	file_delete($file,true);
+	variable_set ( 'jdbursary_income', $income);
 	drupal_set_message ( t ( 'Income file submitted' ) );
-	drupal_set_message ( pre ( variable_get ( 'jdbursary_income' ) ) );
+	//drupal_set_message ( pre ( variable_get ( 'jdbursary_income' ) ) );
 }
 function submit_funding_submit($form, &$form_state) {
 	$province = _getProvinceList ();
@@ -109,10 +105,10 @@ function submit_funding_submit($form, &$form_state) {
 		$funding[$thisProvince] = array_combine($array_header,current($table));
 		next($table);
 	}
-	file_delete($file);
+	file_delete($file,true);
 	variable_set ( 'jdbursary_funding', $funding );
 	drupal_set_message ( t ( 'Funding file submitted' ) );
-	drupal_set_message ( pre ( variable_get ( 'jdbursary_funding' ) ) );
+	//drupal_set_message ( pre ( variable_get ( 'jdbursary_funding' ) ) );
 }
 function getAmount($year, $item, $cost) {
 	return ( int ) $cost [$year] ["$item"];

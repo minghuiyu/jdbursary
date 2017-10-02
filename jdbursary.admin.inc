@@ -361,6 +361,14 @@ function jdbursary_form($form, $form_state) {
     		'#element_validate' => array('element_validate_number'),
     );
     
+    
+    $form['income_file_preview'] = array(
+    		'#type' => 'textarea',
+    		'#title' => t('Income file preview'),
+    		'#default_value' => var_dump(variable_get('income_file')),
+    		'#disabled' => true,
+    );
+    
     $form['income_file'] = array(
     		'#type' => 'file',
     		'#title' => t('Income file'),
@@ -372,6 +380,13 @@ function jdbursary_form($form, $form_state) {
     		'#type' => 'submit',
     		'#value' => t('Upload income file'),
     		'#submit' => array('submit_income_submit'),
+    );
+    
+    $form['funding_file_preview'] = array(
+    		'#type' => 'textarea',
+    		'#title' => t('Funding file preview'),
+    		'#default_value' => variable_get('funding_file'),
+    		'#disabled' => true,
     );
     
     $form['funding_file'] = array(
