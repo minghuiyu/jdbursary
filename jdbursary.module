@@ -48,6 +48,21 @@ function jdbursary_menu() {
 			'type' => MENU_NORMAL_ITEM,
 			'file' => 'jdbursary.admin.inc' 
 	);
+	
+	$items ['content/bursary_calculator'] = array (
+			'title' => 'JD Bursary Calculator',
+			'description' => 'JD Bursary Calculator',
+			'page callback' => 'drupal_get_form',
+			'page arguments' => array (
+					'jdbursary_front_form'
+			),
+			'access arguments' => array(
+					'access content',
+			),
+			'type' => MENU_NORMAL_ITEM,
+			'file' => 'jdbursary.front.inc'
+	);
+	
 	return $items;
 }
 function submit_income_submit($form, &$form_state) {

@@ -1,9 +1,20 @@
 <?php
 
+function reformatVariable ($header, $variable) {
+	$array = array();
+	$line = $header.PHP_EOL;
+	foreach ($variable as $key => $value) {
+		$string = implode(',',$value);
+		$line .= $key.','.$string.PHP_EOL;
+	}
+	return $line;
+}
+
 function jdbursary_form($form, $form_state) {
 
     $form = array();
     
+       
     $form['jdbursary_msc'] = array(
     		'#type' => 'fieldset',
     		'#title' => t('MSC'),
@@ -360,12 +371,12 @@ function jdbursary_form($form, $form_state) {
     		'#description' => t('Use decimal. Do not use percentage.)'),
     		'#element_validate' => array('element_validate_number'),
     );
-    
-    
+
+           
     $form['income_file_preview'] = array(
     		'#type' => 'textarea',
     		'#title' => t('Income file preview'),
-    		'#default_value' => var_dump(variable_get('income_file')),
+    		'#default_value' => reformatVariable('Index,Low Income, Middle Income',variable_get('jdbursary_income')),
     		'#disabled' => true,
     );
     
@@ -382,10 +393,11 @@ function jdbursary_form($form, $form_state) {
     		'#submit' => array('submit_income_submit'),
     );
     
+
     $form['funding_file_preview'] = array(
     		'#type' => 'textarea',
     		'#title' => t('Funding file preview'),
-    		'#default_value' => variable_get('funding_file'),
+    		'#default_value' => reformatVariable('Province,A,B,C,D,No Dependent,Dependent',variable_get('jdbursary_funding')),
     		'#disabled' => true,
     );
     
