@@ -85,35 +85,54 @@ welfare in B.C., ward of the court;  this means the provincial government is or 
     $form['jdbursary_front_spouseincome'] = array(
     		'#type' => 'textfield',
     		'#title' => t("Enter your spouse reported total income from line 150 of 2016 Income Tax Return."),
-    		'#options' => array(			
-    		),
+    		'#element_validate' => array('element_validate_integer_positive'), 
+		'#maxlength' => 7,
+		'#width' => '30%',
+		'#size'=> 7,
     );
     
     $form['jdbursary_front_fundinge'] = array(
     		'#type' => 'textfield',
     		'#title' => t("Funding you will receive, or you are contributing, to help meet specific educational costs. Include all funding you will receive or will voluntarily contribute towards your education during this study period. This includes Government and Employer funding, as well as voluntary contributions from family members."),
-    		'#options' => array(			
-    		),
+    		'#element_validate' => array('element_validate_integer_positive'), 
+		'#maxlength' => 7,
+		'#width' => '30%',
+		'#size'=> 7,
     );
     
     $form['jdbursary_front_scholarship'] = array(
     		'#type' => 'textfield',
     		'#title' => t("Merit-based scholarships or need-based bursaries, including provincial government scholarships."),
-    		'#options' => array(			
-    		),
+    		'#element_validate' => array('element_validate_integer_positive'), 
+		'#maxlength' => 7,
+		'#width' => '30%',
+		'#size'=> 7,
     );
 
     $form['jdbursary_front_line150'] = array(
     		'#type' => 'textfield',
     		'#title' => t("Enter your reported total income from line 150 of your 2016 Income Tax Return."),
-    		'#options' => array(			
-    		),
+    		'#element_validate' => array('element_validate_integer_positive'), 
+		'#maxlength' => 7,
+		'#width' => '30%',
+		'#size'=> 7,		
     );
 
     $form['jdbursary_front_dependent'] = array(
-    		'#type' => 'textfield',
+    		'#type' => 'select',
     		'#title' => t("How many eligible dependents do you have? Eligible dependants are any dependants for whom you receive the Canada Child Tax Benefit or for whom you claim a benefit on your 2016 income tax return."),
-    		'#options' => array(			
+    		'#options' => array(	
+    				0=>0,
+    				1=>1,
+    				2=>2,
+    				3=>3,
+    				4=>4,
+    				5=>5,
+    				6=>6,
+    				7=>7,
+    				8=>8,
+    				9=>9,
+    				10=>10,    				
     		),
     );
 
