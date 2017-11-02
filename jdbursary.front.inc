@@ -12,13 +12,15 @@ function jdbursary_front_form($form, $form_state) {
     				2 => 2,
     				3 => 3
     		),
+    		//'#required' => TRUE,
 
     );
 
     $form['jdbursary_front_province'] = array(
     		'#type' => 'select',
     		'#title' => t('Where have you lived in the past 12 continuous months prior to your study period?'),
-    		'#options' => _getProvinceList(),    		
+    		'#options' => _getProvinceList(),    
+    		//'#required' => TRUE,
     );
     
     $form['jdbursary_front_home'] = array(
@@ -28,6 +30,7 @@ function jdbursary_front_form($form, $form_state) {
     				1 => 'Yes',
     				0 => 'No',
     		),
+    		//'#required' => TRUE,
     );
     
     $form['jdbursary_front_indigenous'] = array(
@@ -37,6 +40,7 @@ function jdbursary_front_form($form, $form_state) {
     				1 => 'Yes',
     				0 => 'No',
     		),
+    		//'#required' => TRUE,
     );
     
     $form['jdbursary_front_disability'] = array(
@@ -46,6 +50,7 @@ function jdbursary_front_form($form, $form_state) {
     				1 => 'Yes',
     				0 => 'No',
     		),
+    		//'#required' => TRUE,
     );
     
     $form['jdbursary_front_welfare'] = array(
@@ -56,6 +61,7 @@ welfare in B.C., ward of the court;  this means the provincial government is or 
     				1 => 'Yes',
     				0 => 'No',
     		),
+    		//'#required' => TRUE,
     );
     
 
@@ -68,6 +74,7 @@ welfare in B.C., ward of the court;  this means the provincial government is or 
     				3 => 'Married Or Common Law',
     				4 => 'Single Parent',
     		),
+    		//'#required' => TRUE,
     );
     
     
@@ -80,42 +87,47 @@ welfare in B.C., ward of the court;  this means the provincial government is or 
     				3 => 'Homecaring Dependent Child(ren)',
     				4 => 'Full Time Post-Secondary Student',
     		),
+    		//'#required' => TRUE,
     );
 
     $form['jdbursary_front_spouseincome'] = array(
     		'#type' => 'textfield',
     		'#title' => t("Enter your spouse reported total income from line 150 of 2016 Income Tax Return."),
     		'#element_validate' => array('element_validate_integer_positive'), 
-		'#maxlength' => 7,
-		'#width' => '30%',
-		'#size'=> 7,
+			'#maxlength' => 7,
+			'#width' => '30%',
+			'#size'=> 7,
+    		//'#required' => TRUE,
     );
     
     $form['jdbursary_front_fundinge'] = array(
     		'#type' => 'textfield',
     		'#title' => t("Funding you will receive, or you are contributing, to help meet specific educational costs. Include all funding you will receive or will voluntarily contribute towards your education during this study period. This includes Government and Employer funding, as well as voluntary contributions from family members."),
     		'#element_validate' => array('element_validate_integer_positive'), 
-		'#maxlength' => 7,
-		'#width' => '30%',
-		'#size'=> 7,
+			'#maxlength' => 7,
+			'#width' => '30%',
+			'#size'=> 7,
+    		//'#required' => TRUE,
     );
     
     $form['jdbursary_front_scholarship'] = array(
     		'#type' => 'textfield',
     		'#title' => t("Merit-based scholarships or need-based bursaries, including provincial government scholarships."),
     		'#element_validate' => array('element_validate_integer_positive'), 
-		'#maxlength' => 7,
-		'#width' => '30%',
-		'#size'=> 7,
+			'#maxlength' => 7,
+			'#width' => '30%',
+			'#size'=> 7,
+    		//'#required' => TRUE,
     );
 
     $form['jdbursary_front_line150'] = array(
     		'#type' => 'textfield',
     		'#title' => t("Enter your reported total income from line 150 of your 2016 Income Tax Return."),
     		'#element_validate' => array('element_validate_integer_positive'), 
-		'#maxlength' => 7,
-		'#width' => '30%',
-		'#size'=> 7,		
+			'#maxlength' => 7,
+			'#width' => '30%',
+			'#size'=> 7,
+    		//'#required' => TRUE,
     );
 
     $form['jdbursary_front_dependent'] = array(
@@ -134,6 +146,7 @@ welfare in B.C., ward of the court;  this means the provincial government is or 
     				9=>9,
     				10=>10,    				
     		),
+    		//'#required' => TRUE,
     );
 
     $form['jdbursary_front_submit'] = array(
@@ -141,8 +154,20 @@ welfare in B.C., ward of the court;  this means the provincial government is or 
     		'#value' => t("Estimate"),
     		'#options' => array(			
     		),
+    		'#submit' => array('jdbursary_calculate'),
     );
+       
     return $form;
+}
+
+function jdbursary_calculate($form, &$form_state) {
+	drupal_set_message(variable_get('jdbursary_msc_pre', 0));
+	drupal_set_message(pre($form_state['values']));
+}
+
+
+function jdbursary_front_form_submission_($form, &$form_state) {
+	drupal_set_message(t('2: The form has been submitted.'));
 }
 
 ?>
