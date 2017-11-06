@@ -4,6 +4,50 @@ error_reporting ( E_ALL );
 /**
  * Pre-study tax rate*
  */
+
+function calculate($form, &$form_state){
+	//return (int) $form_state['values']['jdbursary_front_year'];
+	
+	//book fee
+	$book = (int)variable_get('jdbursary_book_y'.$form_state['values']['jdbursary_front_year']);
+	
+	//tuition fee
+	$tuition = (int)variable_get('jdbursary_tuition_y'.$form_state['values']['jdbursary_front_year']);
+	
+	//SABCWks
+	$sabcweeks = (int)variable_get('jdbursary_sabcwk_y'.$form_state['values']['jdbursary_front_year']);
+	
+	//OSAPWks
+	$osapweeks = (int)variable_get('jdbursary_osapwk_y'.$form_state['values']['jdbursary_front_year']);
+	
+	//SABCMonths
+	$sabcmonths = (int)variable_get('jdbursary_sabcmon_y'.$form_state['values']['jdbursary_front_year']);
+	
+	$divider = ((int) $form_state['values']['jdbursary_front_status'] ==3 AND (int) $form_state['values']['jdbursary_front_spousestatus'] ==4)? 2:1;
+	
+	//applicant's msol amount
+	switch ((int) $form_state['values']['jdbursary_front_status']){
+		case 1:
+			$msol = (int)variable_get('jdbursary_msol_singleaway');
+			break;
+		case 2:
+			$msol = (int)variable_get('jdbursary_msol_singleathome');
+			break;
+		case 3:
+			$msol = (int)variable_get('jdbursary_msol_married');
+			break;
+		case 4:
+			$msol = (int)variable_get('jdbursary_msol_singleparent');
+			break;
+	}
+	
+	$msol = $msol*$sabcweeks/$divider;
+	$msoldependent = (int)$form_state['values']['jdbursary_front_dependent']*$sabcweeks*variable_get('jdbursary_msol_dependant'); 
+	$cost = $tuition+$book+$msol+$msoldependent;
+	return "tuition is $tuition; book fee is $book; MSOL is $msol; MSOL-dependent is $msoldependent; total cost is $cost";
+	
+}
+
 function _getProvinceList() {
 	return array (
 			'AB',
@@ -25,15 +69,17 @@ function pre($var) {
 	$print = print_r ( $var, true );
 	return "<pre>$print</pre>";
 }
+
 function jdbursary_permission() {
 	return array (
 			'config busary calculator' => array (
-					'title' => t ( 'Config JD Bursary Calculator' ),
-					'description' => t ( 'Config JD Bursary Calculator (specify webform id, etc.' ),
+					'title' => t ( 'Config JD Bursary Calculator'),
+					'description' => t ( 'Config JD Bursary Calculator'),
 					'restrict access' => TRUE 
 			) 
 	);
 }
+
 function jdbursary_menu() {
 	$items ['admin/config/user-interface/jdbursary'] = array (
 			'title' => 'Config JD Bursary Calculator',
@@ -48,7 +94,6 @@ function jdbursary_menu() {
 			'type' => MENU_NORMAL_ITEM,
 			'file' => 'jdbursary.admin.inc' 
 	);
-	
 	$items ['content/bursary_calculator'] = array (
 			'title' => 'JD Bursary Calculator',
 			'description' => 'JD Bursary Calculator',
@@ -62,9 +107,9 @@ function jdbursary_menu() {
 			'type' => MENU_NORMAL_ITEM,
 			'file' => 'jdbursary.front.inc'
 	);
-	
 	return $items;
 }
+
 function submit_income_submit($form, &$form_state) {
 	$province = _getProvinceList ();
 	$income = array();
@@ -228,7 +273,7 @@ function jdbursary_custom_submission($form, &$form_state) {
 			) 
 	);
 	
-	$raw_yearLevel = ( int ) $form_state ['values'] ['submitted'] ['year']; // Q2
+	$raw_yearLevel = (int) $form_state ['values'] ['year']; // Q2
 	$raw_province = $form_state ['values'] ['submitted'] ['province']; // Q3
 	$raw_status = $form_state ['values'] ['submitted'] ['status']; // Q6
 	$raw_spouseStatus = $form_state ['values'] ['submitted'] ['spousal_status']; // Q6.1

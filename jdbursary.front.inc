@@ -87,12 +87,22 @@ welfare in B.C., ward of the court;  this means the provincial government is or 
     				3 => 'Homecaring Dependent Child(ren)',
     				4 => 'Full Time Post-Secondary Student',
     		),
+
+		'#states' => array(
+			 'visible' => array(
+			 ':input[name="jdbursary_front_status"]' => array('value' => '3'),
+		),
+		)
     		//'#required' => TRUE,
     );
 
     $form['jdbursary_front_spouseincome'] = array(
     		'#type' => 'textfield',
-    		'#title' => t("Enter your spouse reported total income from line 150 of 2016 Income Tax Return."),
+ 		'#states' => array(
+			 'visible' => array(
+			 ':input[name="jdbursary_front_status"]' => array('value' => '3'),
+		),),
+		'#title' => t("Enter your spouse reported total income from line 150 of 2016 Income Tax Return."),
     		'#element_validate' => array('element_validate_integer_positive'), 
 			'#maxlength' => 7,
 			'#width' => '30%',
@@ -161,8 +171,8 @@ welfare in B.C., ward of the court;  this means the provincial government is or 
 }
 
 function jdbursary_calculate($form, &$form_state) {
-	drupal_set_message(variable_get('jdbursary_msc_pre', 0));
-	drupal_set_message(pre($form_state['values']));
+	//drupal_set_message(pre($form_state['values']));
+	drupal_set_message(pre(calculate($form, $form_state)));
 }
 
 

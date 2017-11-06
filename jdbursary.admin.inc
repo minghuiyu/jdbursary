@@ -51,34 +51,25 @@ function jdbursary_form($form, $form_state) {
 
     $form['jdbursary_msol']['jdbursary_msol_singleaway'] = array(
         '#type' => 'textfield',
-        '#title' => t('MSOL - Single Living Away From Home'),
-        '#size' => 3,
-        '#maxlength' => 4,
-        '#default_value' => variable_get('jdbursary_msc_study', 0),
-        '#element_validate' => array('element_validate_number','element_validate_integer_positive'),
-    );
-
-    $form['jdbursary_msol']['jdbursary_msol_singleaway'] = array(
-        '#type' => 'textfield',
-        '#title' => t('MSOL - Single Living Away From Home'),
+        '#title' => t('Single Living Away From Home'),
         '#size' => 3,
         '#maxlength' => 4,
         '#default_value' => variable_get('jdbursary_msol_singleaway', 0),
         '#element_validate' => array('element_validate_number','element_validate_integer_positive'),
     );
 
-    $form['jdbursary_msol']['jdbursary_msol_singlehome'] = array(
+    $form['jdbursary_msol']['jdbursary_msol_singleathome'] = array(
         '#type' => 'textfield',
-        '#title' => t('MSOL - Single Living Away From Home'),
+        '#title' => t('Single Living At Home'),
         '#size' => 3,
         '#maxlength' => 4,
-        '#default_value' => variable_get('jdbursary_msol_singlehome', 0),
+        '#default_value' => variable_get('jdbursary_msol_singleathome', 0),
         '#element_validate' => array('element_validate_number','element_validate_integer_positive'),
     );
 
     $form['jdbursary_msol']['jdbursary_msol_married'] = array(
         '#type' => 'textfield',
-        '#title' => t('MSOL - Single Living At Home'),
+        '#title' => t('Married or Common Law'),
         '#size' => 3,
         '#maxlength' => 4,
         '#default_value' => variable_get('jdbursary_msol_married', 0),
@@ -87,7 +78,7 @@ function jdbursary_form($form, $form_state) {
 
     $form['jdbursary_msol']['jdbursary_msol_singleparent'] = array(
         '#type' => 'textfield',
-        '#title' => t('MSOL - Married or Common Law'),
+        '#title' => t('Single Parent'),
         '#size' => 3,
         '#maxlength' => 4,
         '#default_value' => variable_get('jdbursary_msol_singleparent', 0),
@@ -96,7 +87,7 @@ function jdbursary_form($form, $form_state) {
 
     $form['jdbursary_msol']['jdbursary_msol_dependant'] = array(
         '#type' => 'textfield',
-        '#title' => t('MSOL - Dependant'),
+        '#title' => t('Dependant'),
         '#size' => 3,
         '#maxlength' => 4,
         '#default_value' => variable_get('jdbursary_msol_dependant', 0),
@@ -318,7 +309,7 @@ function jdbursary_form($form, $form_state) {
     
     $form['jdbursary_tuition'] = array(
     		'#type' => 'fieldset',
-    		'#title' => t('DTuitStudFee'),
+    		'#title' => t('Tuition fee'),
     		'#collapsible' => TRUE,
     		'#collapsed' => TRUE,
     );
@@ -346,7 +337,7 @@ function jdbursary_form($form, $form_state) {
 
     $form['jdbursary_book'] = array(
     		'#type' => 'fieldset',
-    		'#title' => t('TotBkEE'),
+    		'#title' => t('Book fee'),
     		'#collapsible' => TRUE,
     		'#collapsed' => TRUE,
     );
