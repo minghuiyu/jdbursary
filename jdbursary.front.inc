@@ -6,7 +6,7 @@ function jdbursary_front_form($form, $form_state) {
      
     $form['jdbursary_front_year'] = array(
     		'#type' => 'select',
-    		'#title' => t('Please select JD program year'),
+    		'#title' => t('1. Please select JD program year'),
     		'#options' => array(
     				1 => 1,
     				2 => 2,
@@ -18,14 +18,14 @@ function jdbursary_front_form($form, $form_state) {
 
     $form['jdbursary_front_province'] = array(
     		'#type' => 'select',
-    		'#title' => t('Where have you lived in the past 12 continuous months prior to your study period?'),
+    		'#title' => t('2. Where have you lived in the past 12 continuous months prior to your study period?'),
     		'#options' => _getProvinceList(),    
     		//'#required' => TRUE,
     );
     
     $form['jdbursary_front_home'] = array(
     		'#type' => 'select',
-    		'#title' => t('While you are in school, will you be living with your parent(s)/step-parent/sponsor/legal guardian or living in a home owned or rented by them?'),
+    		'#title' => t('3. While you are in school, will you be living with your parent(s)/step-parent/sponsor/legal guardian or living in a home owned or rented by them?'),
     		'#options' => array(
     				1 => 'Yes',
     				0 => 'No',
@@ -35,7 +35,7 @@ function jdbursary_front_form($form, $form_state) {
     
     $form['jdbursary_front_indigenous'] = array(
 		'#type' => 'select',
-    		'#title' => t("Do you identify yourself as an Aboriginal person; that is, First Nations, Metis or Inuit?"),
+    		'#title' => t("4. Do you identify yourself as an Aboriginal person; that is, First Nations, Metis or Inuit?"),
     		'#options' => array(
     				1 => 'Yes',
     				0 => 'No',

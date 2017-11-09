@@ -384,6 +384,27 @@ function jdbursary_form($form, $form_state) {
     		'#submit' => array('submit_income_submit'),
     );
     
+    
+    $form['threshold_file_preview'] = array(
+    		'#type' => 'textarea',
+    		'#title' => t('Income threshold preview'),
+    		//'#default_value' => reformatVariable('Index,Low Income, Middle Income',variable_get('jdbursary_threshold')),
+    		'#default_value' => pre(variable_get('jdbursary_threshold')),
+    		'#disabled' => true,
+    );
+    
+    $form['threshold_file'] = array(
+    		'#type' => 'file',
+    		'#title' => t('Income threshold file'),
+    		'#description' => t('Allowed extensions: csv'),
+    );
+    
+    $form['submit_threshold'] = array
+    (
+    		'#type' => 'submit',
+    		'#value' => t('Upload income threshold file'),
+    		'#submit' => array('submit_threshold_submit'),
+    );
 
     $form['funding_file_preview'] = array(
     		'#type' => 'textarea',

@@ -8,6 +8,8 @@ error_reporting ( E_ALL );
 function calculate($form, &$form_state){
 	//return (int) $form_state['values']['jdbursary_front_year'];
 	
+	/** Cost calculation**/
+	
 	//book fee
 	$book = (int)variable_get('jdbursary_book_y'.$form_state['values']['jdbursary_front_year']);
 	
@@ -42,29 +44,35 @@ function calculate($form, &$form_state){
 	}
 	
 	$msol = $msol*$sabcweeks/$divider;
-	$msoldependent = (int)$form_state['values']['jdbursary_front_dependent']*$sabcweeks*variable_get('jdbursary_msol_dependant'); 
-	$cost = $tuition+$book+$msol+$msoldependent;
-	return "tuition is $tuition; book fee is $book; MSOL is $msol; MSOL-dependent is $msoldependent; total cost is $cost";
+	$msolDependent = (int)$form_state['values']['jdbursary_front_dependent']*$sabcweeks*variable_get('jdbursary_msol_dependant'); 
+	$cost = $tuition+$book+$msol+$msolDependent;
+	return "tuition is $tuition; book fee is $book; MSOL is $msol; MSOL-dependent is $msolDependent; total cost is $cost";
 	
+	
+	/** End of cost calculation**/
+	$targetedResources= (int) $form_state['values']['jdbursary_front_funding'];
+	$scholarship = max(0,(int) $form_state['values']['jdbursary_front_scholarship']-1800);
+	
+	$fixedContribution;
+	$spouseContribution;
+	
+	
+	/** Resource calculation**/
+	
+	/** End of resource calculation**/
+	
+	
+	/** Funding calculation**/
+	
+	
+	/** End of funding calculation**/
 }
 
 function _getProvinceList() {
 	return array (
-			'AB',
-			'BC',
-			'MB',
-			'NB',
-			'NL',
-			'NS',
-			'NT',
-			'NU',
-			'ON',
-			'PE',
-			'QC',
-			'SK',
-			'YT' 
-	);
+			'AB','BC', 'MB', 'NB','NL','NS','NT','NU','ON','PE','QC','SK','YT');
 }
+
 function pre($var) {
 	$print = print_r ( $var, true );
 	return "<pre>$print</pre>";
@@ -108,6 +116,27 @@ function jdbursary_menu() {
 			'file' => 'jdbursary.front.inc'
 	);
 	return $items;
+}
+
+function submit_threshold_submit($form, &$form_state){
+	$threhold = array();
+	$array_header = array (
+			'size',
+			'threhold',
+			'slope',
+			'tbd'
+	);
+	$file = file_save_upload('threshold_file', array('file_validate_extensions' => array('csv'),));
+	$fp = fopen($file->uri, 'r');
+	$threshold = array();
+	while (($line = fgetcsv($fp, 1024, ",")) !== FALSE) {
+		$threshold[] = array_slice($line,1);
+	}
+	//remove the file in temp and the pointer in the database
+	file_delete($file,true);
+	variable_set ( 'jdbursary_threshold', $threshold);
+	drupal_set_message ( t ( 'Threshold file submitted' ) );
+	
 }
 
 function submit_income_submit($form, &$form_state) {
