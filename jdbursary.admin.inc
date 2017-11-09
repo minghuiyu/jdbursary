@@ -388,8 +388,8 @@ function jdbursary_form($form, $form_state) {
     $form['threshold_file_preview'] = array(
     		'#type' => 'textarea',
     		'#title' => t('Income threshold preview'),
-    		//'#default_value' => reformatVariable('Index,Low Income, Middle Income',variable_get('jdbursary_threshold')),
-    		'#default_value' => pre(variable_get('jdbursary_threshold')),
+    		'#default_value' => reformatVariable('Size, Threshold, Slope,TBD',variable_get('jdbursary_threshold')),
+    		//'#default_value' => pre(variable_get('jdbursary_threshold')),
     		'#disabled' => true,
     );
     
