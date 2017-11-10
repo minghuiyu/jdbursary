@@ -8,6 +8,18 @@ error_reporting ( E_ALL );
 function calculate($form, &$form_state){
 	//return (int) $form_state['values']['jdbursary_front_year'];
 	
+	/** Helper variables **/
+	
+	$familySize=((int) $form_state['values']['jdbursary_front_status'] ==3)?(int) $form_state['values']['jdbursary_front_dependent']+2:(int) $form_state['values']['jdbursary_front_dependent']+1;
+	$familySize = ($familySize>7)?7:$familySize;
+	
+	$incomeThreshold = variable_get('jdbursary_threshold');
+	$slope = $incomeThreshold[$familySize][1];
+	$incomeThreshold = $incomeThreshold[$familySize][0];
+	
+	$weeklyContribution = round(max(0,$form_state['values']['jdbursary_front_year']+$form_state['values']['jdbursary_front_spouseincome']-$incomeThreshold)/ 52 / 8 * 12 * 0.15+43.27,2);
+	
+	
 	/** Cost calculation**/
 	
 	//book fee
@@ -46,18 +58,19 @@ function calculate($form, &$form_state){
 	$msol = $msol*$sabcweeks/$divider;
 	$msolDependent = (int)$form_state['values']['jdbursary_front_dependent']*$sabcweeks*variable_get('jdbursary_msol_dependant'); 
 	$cost = $tuition+$book+$msol+$msolDependent;
-	return "tuition is $tuition; book fee is $book; MSOL is $msol; MSOL-dependent is $msolDependent; total cost is $cost";
+	return "weekly contribution is $weeklyContribution; tuition is $tuition; book fee is $book; MSOL is $msol; MSOL-dependent is $msolDependent; total cost is $cost; family size is $familySize; income threshold is $incomeThreshold; slope is $slope";
 	
 	
 	/** End of cost calculation**/
+
+	
+	/** Resource calculation**/
+
 	$targetedResources= (int) $form_state['values']['jdbursary_front_funding'];
 	$scholarship = max(0,(int) $form_state['values']['jdbursary_front_scholarship']-1800);
 	
 	$fixedContribution;
 	$spouseContribution;
-	
-	
-	/** Resource calculation**/
 	
 	/** End of resource calculation**/
 	
