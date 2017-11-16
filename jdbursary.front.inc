@@ -110,7 +110,7 @@ welfare in B.C., ward of the court;  this means the provincial government is or 
     		//'#required' => TRUE,
     );
     
-    $form['jdbursary_front_fundinge'] = array(
+    $form['jdbursary_front_funding'] = array(
     		'#type' => 'textfield',
     		'#title' => t("Funding you will receive, or you are contributing, to help meet specific educational costs. Include all funding you will receive or will voluntarily contribute towards your education during this study period. This includes Government and Employer funding, as well as voluntary contributions from family members."),
     		'#element_validate' => array('element_validate_integer_positive'), 

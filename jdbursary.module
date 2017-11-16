@@ -17,8 +17,12 @@ function calculate($form, &$form_state){
 	$slope = $incomeThreshold[$familySize][1];
 	$incomeThreshold = $incomeThreshold[$familySize][0];
 	
-	$weeklyContribution = round(max(0,$form_state['values']['jdbursary_front_year']+$form_state['values']['jdbursary_front_spouseincome']-$incomeThreshold)/ 52 / 8 * 12 * 0.15+43.27,2);
+	$weeklyContribution = round(max(0,$form_state['values']['jdbursary_front_line150']+$form_state['values']['jdbursary_front_spouseincome']-$incomeThreshold)/ 52 / 8 * 12 * 0.15+43.27,2);
+	$weeklyContributionSpouse = ($form_state['values']['jdbursary_front_year']==1)?0:max(0,$form_state['values']['jdbursary_front_line150']+$form_state['values']['jdbursary_front_spouseincome']-$incomeThreshold);
+	$weeklyContributionSpouse = round($weeklyContributionSpouse/52/8*12*0.1,2);
 	
+	$csgReduction = round(MAX(0,$form_state['values']['jdbursary_front_line150']+$form_state['values']['jdbursary_front_spouseincome']-$incomeThreshold)/ 52 / 8 * 12*$slope,2);
+	$csg = round(MIN(86.53, 86.53-$csgReduction),2);
 	
 	/** Cost calculation**/
 	
@@ -58,27 +62,62 @@ function calculate($form, &$form_state){
 	$msol = $msol*$sabcweeks/$divider;
 	$msolDependent = (int)$form_state['values']['jdbursary_front_dependent']*$sabcweeks*variable_get('jdbursary_msol_dependant'); 
 	$cost = $tuition+$book+$msol+$msolDependent;
-	return "weekly contribution is $weeklyContribution; tuition is $tuition; book fee is $book; MSOL is $msol; MSOL-dependent is $msolDependent; total cost is $cost; family size is $familySize; income threshold is $incomeThreshold; slope is $slope";
-	
+
 	
 	/** End of cost calculation**/
 
 	
 	/** Resource calculation**/
 
-	$targetedResources= (int) $form_state['values']['jdbursary_front_funding'];
+	$targetedResource= (int)  $form_state['values']['jdbursary_front_funding'];
 	$scholarship = max(0,(int) $form_state['values']['jdbursary_front_scholarship']-1800);
 	
-	$fixedContribution;
-	$spouseContribution;
+	if ($form_state['values']['jdbursary_front_indigenous']== 1 OR 			
+			$form_state['values']['jdbursary_front_disability']=="Yes" OR 
+			$form_state['values']['jdbursary_front_welfare']=="Yes" OR 
+			$form_state['values']['jdbursary_front_dependent']> 0)
+		$fixedContribution =0; 
+	else 
+		$fixedContribution = round(MIN($sabcweeks,34.67)*$weeklyContribution,2);
+	
+		$spouseContribution = ((int) $form_state['values']['jdbursary_front_status'] ==3)? round(MIN($sabcweeks,34.67)*$weeklyContributionSpouse,2):0;
+		
+		$resource = $fixedContribution+$spouseContribution+$targetedResource+$scholarship;
+	
 	
 	/** End of resource calculation**/
 	
 	
 	/** Funding calculation**/
+		
+		
 	
 	
 	/** End of funding calculation**/
+	
+	
+	return "csg reduction is $csgReduction<br>
+			csg is $csg;<br>
+			spouse weekly contribution is $weeklyContributionSpouse;<br> 
+weekly contribution is $weeklyContribution; <br>
+tuition is $tuition; <br>
+book fee is $book;<br> 
+MSOL is $msol; <br>
+MSOL-dependent is $msolDependent; <br>
+total cost is $cost; <br>
+family size is $familySize; <br>
+income threshold is $incomeThreshold; <br>
+slope is $slope<br>
+fixed contribution is $fixedContribution<br>
+spouse contribution is $spouseContribution<br>
+targeted resource is $targetedResource<br>
+scholarship is $scholarship<br>
+resource is $resource<br>";
+	
+}
+
+function calculateLoan($province) {
+	
 }
 
 function _getProvinceList() {
@@ -142,8 +181,10 @@ function submit_threshold_submit($form, &$form_state){
 	$file = file_save_upload('threshold_file', array('file_validate_extensions' => array('csv'),));
 	$fp = fopen($file->uri, 'r');
 	$threshold = array();
+	$index=1;
 	while (($line = fgetcsv($fp, 1024, ",")) !== FALSE) {
-		$threshold[] = array_slice($line,1);
+		$threshold[$index] = array_slice($line,1);
+		$index++;
 	}
 	//remove the file in temp and the pointer in the database
 	file_delete($file,true);

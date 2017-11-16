@@ -14,7 +14,27 @@ function jdbursary_form($form, $form_state) {
 
     $form = array();
     
-       
+    $form['jdbursary_dependentvar'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('Dependent variable'),
+    		'#size' => 3,
+    		'#maxlength' => 4,
+    		'#default_value' => variable_get('jdbursary_dependentvar', 0),
+    		'#element_validate' => array('element_validate_number','element_validate_integer_positive'),
+    		'#description' => t('Dependent variable. For 2017-2018 year, it shall be 200)'),
+    );
+    
+    $form['jdbursary_deductiblevar'] = array(
+    		'#type' => 'textfield',
+    		'#title' => t('Deductible variable'),
+    		'#size' => 3,
+    		'#maxlength' => 4,
+    		'#default_value' => variable_get('jdbursary_deductiblevar', 0),
+    		'#element_validate' => array('element_validate_number','element_validate_integer_positive'),
+    		'#description' => t('Deductible variable. For 2017-2018 year, it shall be 780)'),
+    );
+    
+    
     $form['jdbursary_msc'] = array(
     		'#type' => 'fieldset',
     		'#title' => t('MSC'),
